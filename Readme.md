@@ -34,6 +34,7 @@ A full-stack  small scale expense tracking web application built with React and 
 | Backend | Node.js + Express | Minimal, fast REST API server |
 | Storage | JSON file (data.json) | Simple persistence without a database setup — suitable for single-user scope |
 | ID Generation | uuid | Guaranteed unique IDs for each expense |
+| CSV Download | react-csv | download of expenses locally in csv format |
 
 ---
 
@@ -78,31 +79,32 @@ expense-tracker/
 ├── client/                        # React frontend
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── ExpenseForm.jsx    # Add / edit expense form with validation
-│   │   │   ├── ExpenseTable.jsx   # Expense list with edit and delete actions
-│   │   │   ├── ConfirmModal.jsx   # Delete confirmation modal
-│   │   │   ├── SummaryPanel.jsx   # Total this month, by category, highest expense
-│   │   │   ├── CategoryChart.jsx  # Pie chart of spending by category
-│   │   │   ├── FilterBar.jsx      # Category and date range filters
-│   │   │   └── Footer.jsx         # Footer with name and contact
+│   │   │   ├── ExpenseForm.jsx          # Add / edit expense form with validation
+│   │   │   ├── ExpenseTable.jsx         # Expense list with edit and delete actions
+│   │   │   ├── Summary.jsx              # Total this month, by category, highest expense
+│   │   │   ├── Chart.jsx                # Pie chart of spending by category
+│   │   │   ├── FilterBar.jsx            # Category and date range filters
+│   │   │   └── Footer.jsx               # Footer with name , Github Repo and contact
 │   │   ├── context/
-│   │   │   └── ContextApi.jsx     # Global state — expenses, filters, API calls
+│   │   │   └── ContextApi.jsx           # Global state — expenses, filters, API calls
 │   │   ├── utils/
-│   │   │   └── formatCurrency.js  # Indian Rupee formatter (en-IN locale)
-│   │   ├── App.jsx                # Root layout, edit state management
-│   │   ├── App.css                # Global styles
-│   │   └── main.jsx               # React entry point, wraps app in ExpenseProvider
-│   ├── vite.config.js             # Vite config with /api proxy to backend
+│   │   │   |── formatCurrency.js        # Indian Rupee formatter (en-IN locale)
+            ├── ConfirmationModal.jsx    # Delete confirmation modal
+            ├── downloadCSV.jsx          # Download button for CSV file
+│   │   ├── App.jsx                      # Root layout, edit state management
+│   │   ├── App.css                      # Global styles
+│   │   └── main.jsx                     # React entry point, wraps app in ExpenseProvider
+│   ├── vite.config.js                   # Vite config with /api proxy to backend
 │   └── package.json
 │
-├── server/                        # Node.js + Express backend
+├── server/                              # Node.js + Express backend
 │   ├── Controllers/
-│   │   └── expenses.js            # GET, POST, PUT, DELETE handlers
+│   │   └── expenses.js                  # GET, POST, PUT, DELETE handlers
 │   ├── Routes/
-│   │   └── routes.js              # Express router — maps endpoints to controllers
+│   │   └── routes.js                    # Express router — maps endpoints to controllers
 │   ├── Data/
-│   │   └── data.json              # JSON file storage (gitignored)
-│   ├── server.js                  # Express app setup, middleware, server start
+│   │   └── data.json                    # JSON file storage (gitignored)
+│   ├── server.js                        # Express app setup, middleware, server start
 │   └── package.json
 │
 ├── .gitignore
@@ -206,6 +208,11 @@ Deletes an expense by ID.
 
 ### Bonus
 - ✅ Persistence to JSON file — data survives server restarts
+- ✅ CSV Export- Allow users to download their filtered expenses as a CSV file.
+
+
+
+
 
 ---
 
@@ -216,9 +223,6 @@ Currently the app assumes a single user with no login. The next step would be to
 
 ### Real Database
 The JSON file works for a single user but is not suitable for concurrent multi-user access — simultaneous writes can corrupt the file. Migrating to **SQLite** (via `better-sqlite3`) would be a lightweight first step, and **PostgreSQL** with an ORM like Prisma would be the production-ready choice.
-
-### CSV Export
-Allow users to download their filtered expenses as a CSV file. This is a one-function addition on the backend using the `json2csv` package, with a download button on the frontend.
 
 ### Budget Limits Per Category
 Let users set a monthly budget per category. A visual indicator (progress bar turning red) would show when spending exceeds the limit. This would require a separate `/budgets` API endpoint.
@@ -247,4 +251,4 @@ All code was reviewed, understood, and in many cases modified before being used.
 **Aksh Gupta**
 - 📧 akshgupta593@gmail.com
 - 📞 +91 88006 96298
-- 🐙 [github.com/YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- 🐙 https://github.com/AkshGupta007/
