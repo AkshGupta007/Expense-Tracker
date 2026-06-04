@@ -56,10 +56,9 @@ echo "[]" > Data/data.json
 node server.js
 ```
 
-Ensure `server/Data/data.json` exists and contains:
+Ensure `server/Data/data.json` exists and contains [] json or json data in []:
 
-```json
-[]
+
 Server runs on `http://localhost:5000`
 
 ### Start the Frontend
