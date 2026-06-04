@@ -1,9 +1,9 @@
 const fs = require("fs");
-const path = require("path"); // ← add this
+const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 
-// ← add this one line, use it everywhere
-const DATA_FILE = path.join(__dirname, "../Data/data.json");
+const DEFAULT_DATA_FILE = path.join(__dirname, "../Data/data.json");
+const DATA_FILE = process.env.DATA_FILE || DEFAULT_DATA_FILE;
 
 const VALID_CATEGORIES = [
   "Food",
@@ -13,9 +13,29 @@ const VALID_CATEGORIES = [
   "Other",
 ];
 
+const ensureDataFile = () => {
+  if (fs.existsSync(DATA_FILE)) {
+    return;
+  }
+
+  fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
+  const seedData = fs.readFileSync(DEFAULT_DATA_FILE, "utf-8");
+  fs.writeFileSync(DATA_FILE, seedData);
+};
+
+const readExpenses = () => {
+  ensureDataFile();
+  return JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
+};
+
+const writeExpenses = (expenses) => {
+  ensureDataFile();
+  fs.writeFileSync(DATA_FILE, JSON.stringify(expenses, null, 2));
+};
+
 const getData = (req, res) => {
   try {
-    let expenses = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8")); // ← DATA_FILE
+    let expenses = readExpenses();
     const { category, startDate, endDate } = req.query;
 
     if (category && category !== "All") {
@@ -49,7 +69,7 @@ const editData = (req, res) => {
   }
 
   try {
-    const expenses = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8")); // ← DATA_FILE
+    const expenses = readExpenses();
     const index = expenses.findIndex((e) => e.id === req.params.id);
 
     if (index === -1) {
@@ -64,7 +84,7 @@ const editData = (req, res) => {
       note: note || "",
     };
 
-    fs.writeFileSync(DATA_FILE, JSON.stringify(expenses, null, 2)); // ← DATA_FILE
+    writeExpenses(expenses);
     res.json(expenses[index]);
   } catch (err) {
     res.status(500).json({ error: "Failed to update expense." });
@@ -88,7 +108,7 @@ const addData = (req, res) => {
   }
 
   try {
-    const expenses = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8")); // ← DATA_FILE
+    const expenses = readExpenses();
     const newExpense = {
       id: uuidv4(),
       amount: parseFloat(Number(amount).toFixed(2)),
@@ -98,7 +118,7 @@ const addData = (req, res) => {
       createdAt: new Date().toISOString(),
     };
     expenses.push(newExpense);
-    fs.writeFileSync(DATA_FILE, JSON.stringify(expenses, null, 2)); // ← DATA_FILE
+    writeExpenses(expenses);
     res.status(201).json(newExpense);
   } catch (err) {
     res.status(500).json({ error: "Failed to save expense." });
@@ -109,7 +129,7 @@ const deleteData = (req, res) => {
   try {
     const id = req.params.id;
 
-    const results = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8")); // ← DATA_FILE
+    const results = readExpenses();
     const index = results.findIndex((item) => item.id === id);
 
     if (index === -1) {
@@ -119,7 +139,7 @@ const deleteData = (req, res) => {
     }
 
     results.splice(index, 1);
-    fs.writeFileSync(DATA_FILE, JSON.stringify(results, null, 2)); // ← DATA_FILE
+    writeExpenses(results);
 
     res
       .status(200)
