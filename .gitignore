@@ -1,0 +1,14 @@
+
+# ── Server ───────────────────────────────
+server/node_modules/
+server/Data/data.json
+ 
+# ── Client ───────────────────────────────
+client/node_modules/
+client/dist/
+ 
+# ── General ──────────────────────────────
+.env
+.env.local
+.DS_Store
+ 

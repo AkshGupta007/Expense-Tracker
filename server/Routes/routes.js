@@ -4,13 +4,13 @@ const router = express.Router();
 
 const { getData, editData, addData, deleteData} = require('../Controllers/expenses');
 
-router.get('/',getData);
+router.get('/expenses',getData);
 
-router.put('/:id',editData);
+router.put('/expenses/:id',editData);
 
-router.post('/',addData);
+router.post('/expenses',addData);
 
-router.delete('/:id',deleteData);
+router.delete('/expenses/:id',deleteData);
 
 
 
