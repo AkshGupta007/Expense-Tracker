@@ -1,9 +1,9 @@
 import { useState } from "react";
+import { FaEdit } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
 import { useExpenseContext } from "../context/ContextApi";
 import { formatCurrency } from "../utils/formatCurrency";
 import ConfirmModal from "../utils/ConfirmationModal";
-import { MdDeleteForever } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
 import DownloadCSV from "../utils/downloadCSV";
 
 export default function ExpenseTable({ onEdit }) {
@@ -29,12 +29,12 @@ export default function ExpenseTable({ onEdit }) {
   }
 
   if (loading) return <p className="loading-text">Loading expenses...</p>;
-  if (error) return <p className="error-message">⚠️ {error}</p>;
+  if (error) return <p className="error-message">Error: {error}</p>;
 
   if (expenses.length === 0) {
     return (
       <div className="empty-state">
-        <p>🧾 No expenses found.</p>
+        <p>No expenses found</p>
         <p>Add one using the form, or adjust your filters.</p>
       </div>
     );
@@ -46,7 +46,7 @@ export default function ExpenseTable({ onEdit }) {
         isOpen={modalOpen}
         message={
           selectedExpense
-            ? `Delete "${selectedExpense.note || selectedExpense.category}" — ${formatCurrency(selectedExpense.amount)}?`
+            ? `Delete "${selectedExpense.note || selectedExpense.category}" - ${formatCurrency(selectedExpense.amount)}?`
             : ""
         }
         onConfirm={handleConfirm}
@@ -54,14 +54,11 @@ export default function ExpenseTable({ onEdit }) {
       />
 
       <div className="card">
-        <div className="flex gap-2 items-center justify-between mb-3">
+        <div className="table-header">
           <h2>Expenses ({expenses.length})</h2>
-        
-         {
-            expenses.length > 0 && <DownloadCSV />
-         }
-    
+          <DownloadCSV />
         </div>
+
         <div className="table-wrapper">
           <table className="expense-table">
             <thead>
@@ -84,13 +81,14 @@ export default function ExpenseTable({ onEdit }) {
                       {expense.category}
                     </span>
                   </td>
-                  <td>{expense.note || "—"}</td>
+                  <td>{expense.note || "-"}</td>
                   <td className="amount">{formatCurrency(expense.amount)}</td>
-                  <td>
+                  <td className="actions-cell">
                     <button
                       className="btn-icon"
                       onClick={() => onEdit(expense)}
                       title="Edit"
+                      type="button"
                     >
                       <FaEdit />
                     </button>
@@ -98,6 +96,7 @@ export default function ExpenseTable({ onEdit }) {
                       className="btn-icon btn-danger"
                       onClick={() => handleDeleteClick(expense)}
                       title="Delete"
+                      type="button"
                     >
                       <MdDeleteForever />
                     </button>

@@ -1,9 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useExpenseContext } from "../context/ContextApi";
 
 const CATEGORIES = ["Food", "Transport", "Bills", "Entertainment", "Other"];
 const today = new Date().toISOString().split("T")[0];
 const emptyForm = { amount: "", category: "", date: today, note: "" };
+
+function getInitialForm(editingExpense) {
+  if (!editingExpense) {
+    return emptyForm;
+  }
+
+  return {
+    amount: editingExpense.amount,
+    category: editingExpense.category,
+    date: editingExpense.date,
+    note: editingExpense.note || "",
+  };
+}
 
 export default function ExpenseForm({
   editingExpense,
@@ -12,25 +25,10 @@ export default function ExpenseForm({
 }) {
   const { addExpense, updateExpense } = useExpenseContext();
 
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState(() => getInitialForm(editingExpense));
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [apiError, setApiError] = useState("");
-
-  useEffect(() => {
-    if (editingExpense) {
-      setForm({
-        amount: editingExpense.amount,
-        category: editingExpense.category,
-        date: editingExpense.date,
-        note: editingExpense.note || "",
-      });
-    } else {
-      setForm(emptyForm);
-    }
-    setErrors({});
-    setApiError("");
-  }, [editingExpense]);
 
   function validate() {
     const errs = {};
@@ -60,14 +58,13 @@ export default function ExpenseForm({
     setApiError("");
 
     try {
+      const payload = { ...form, amount: parseFloat(form.amount) };
+
       if (editingExpense) {
-        await updateExpense(editingExpense.id, {
-          ...form,
-          amount: parseFloat(form.amount),
-        });
+        await updateExpense(editingExpense.id, payload);
         onEditDone();
       } else {
-        await addExpense({ ...form, amount: parseFloat(form.amount) });
+        await addExpense(payload);
       }
       setForm(emptyForm);
       setErrors({});
@@ -92,7 +89,7 @@ export default function ExpenseForm({
 
       <form onSubmit={handleSubmit} noValidate>
         <div className="form-group">
-          <label htmlFor="amount">Amount (₹)</label>
+          <label htmlFor="amount">Amount (INR)</label>
           <input
             id="amount"
             name="amount"

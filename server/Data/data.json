@@ -78,5 +78,13 @@
     "date": "2026-06-04",
     "note": "hat",
     "createdAt": "2026-06-04T10:48:34.493Z"
+  },
+  {
+    "id": "f5ba8cbd-c7aa-4041-8a69-bcb7cd3d53d9",
+    "amount": 55,
+    "category": "Food",
+    "date": "2026-06-04",
+    "note": "rfff",
+    "createdAt": "2026-06-04T18:49:44.093Z"
   }
 ]

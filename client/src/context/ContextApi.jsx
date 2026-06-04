@@ -61,7 +61,8 @@ export function ExpenseProvider({ children }) {
   }, [filters]);
 
   useEffect(() => {
-    fetchExpenses();
+    const timeoutId = window.setTimeout(fetchExpenses, 0);
+    return () => window.clearTimeout(timeoutId);
   }, [fetchExpenses]);
 
   const addExpense = async (formData) => {
@@ -136,6 +137,7 @@ export function ExpenseProvider({ children }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useExpenseContext() {
   return useContext(ExpenseContext);
 }

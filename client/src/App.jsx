@@ -22,14 +22,15 @@ export default function App() {
 
   return (
     <div className="app-container">
-      <header className="flex items-center justify-center gap-4">
-        <img src={logo} alt="Expense Tracker Logo" className="w-32 h-32" />
-        <h1 className="text-2xl font-bold">Expense Tracker</h1>
+      <header className="app-header">
+        <img src={logo} alt="Expense Tracker Logo" className="app-logo" />
+        <h1>Expense Tracker</h1>
       </header>
 
       <main className="app-main">
         <section className="left-panel">
           <ExpenseForm
+            key={editingExpense?.id || "new-expense"}
             editingExpense={editingExpense}
             onCancelEdit={handleCancelEdit}
             onEditDone={() => setEditingExpense(null)}
