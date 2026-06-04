@@ -25,7 +25,18 @@ const ensureDataFile = () => {
 
 const readExpenses = () => {
   ensureDataFile();
-  return JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
+
+  try {
+    const fileContent = fs.readFileSync(DATA_FILE, "utf-8");
+
+    if (!fileContent.trim()) {
+      return [];
+    }
+
+    return JSON.parse(fileContent);
+  } catch (error) {
+    return [];
+  }
 };
 
 const writeExpenses = (expenses) => {

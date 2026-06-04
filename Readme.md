@@ -56,6 +56,10 @@ echo "[]" > Data/data.json
 node server.js
 ```
 
+Ensure `server/Data/data.json` exists and contains:
+
+```json
+[]
 Server runs on `http://localhost:5000`
 
 ### Start the Frontend
@@ -69,6 +73,9 @@ npm run dev
 ```
 
 Frontend runs on `http://localhost:5173`
+# Markdown
+Frontend runs on the URL shown by Vite (typically http://localhost:5173).
+If 5173 is already in use, Vite may automatically choose another port such as 5174.
 
 ---
 
