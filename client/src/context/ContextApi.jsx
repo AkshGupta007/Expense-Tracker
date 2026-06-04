@@ -6,6 +6,8 @@ import {
   useCallback,
 } from "react";
 
+import { toast } from "react-toastify";
+
 const ExpenseContext = createContext();
 
 const API_BASE =
@@ -48,9 +50,11 @@ export function ExpenseProvider({ children }) {
       }
 
       const data = await res.json();
+     
       setExpenses(data);
     } catch (err) {
       setError(err.message);
+      toast.error("Failed to fetch expenses");
     } finally {
       setLoading(false);
     }
@@ -71,8 +75,10 @@ export function ExpenseProvider({ children }) {
 
     if (!res.ok) {
       const err = await res.json();
+      toast.error(err.error || "Failed to add expense");
       throw new Error(err.error || "Failed to add expense");
     }
+    toast.success("Expense added");
 
     await fetchExpenses();
   };
@@ -88,9 +94,11 @@ export function ExpenseProvider({ children }) {
 
     if (!res.ok) {
       const err = await res.json();
+      toast.error(err.error || "Failed to update expense");
       throw new Error(err.error || "Failed to update expense");
     }
 
+    toast.success("Expense updated");
     await fetchExpenses();
   };
 
@@ -100,9 +108,11 @@ export function ExpenseProvider({ children }) {
     });
 
     if (!res.ok) {
+      toast.error("Failed to delete expense");
       throw new Error("Failed to delete expense");
     }
 
+    toast.success("Expense deleted");
     await fetchExpenses();
   };
 

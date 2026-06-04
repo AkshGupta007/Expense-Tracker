@@ -19,7 +19,7 @@ export default function App() {
   }
 
   return (
-    <div className="bg-amber-500">
+    <div className="app-container">
       <header className="app-header">
         <h1>💸 Expense Tracker</h1>
       </header>

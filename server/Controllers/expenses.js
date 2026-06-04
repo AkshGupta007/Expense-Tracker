@@ -1,6 +1,9 @@
 const fs = require("fs");
+const path = require("path"); // ← add this
 const { v4: uuidv4 } = require("uuid");
 
+// ← add this one line, use it everywhere
+const DATA_FILE = path.join(__dirname, "../Data/data.json");
 
 const VALID_CATEGORIES = [
   "Food",
@@ -12,7 +15,7 @@ const VALID_CATEGORIES = [
 
 const getData = (req, res) => {
   try {
-    let expenses = JSON.parse(fs.readFileSync("./Data/data.json", "utf-8"));
+    let expenses = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8")); // ← DATA_FILE
     const { category, startDate, endDate } = req.query;
 
     if (category && category !== "All") {
@@ -39,7 +42,6 @@ const editData = (req, res) => {
     return res.status(400).json({ error: "Amount must be a positive number." });
   }
   if (!category || !VALID_CATEGORIES.includes(category)) {
-    // ✅ Now resolvable
     return res.status(400).json({ error: "A valid category is required." });
   }
   if (!date || date > new Date().toISOString().split("T")[0]) {
@@ -47,7 +49,7 @@ const editData = (req, res) => {
   }
 
   try {
-    const expenses = JSON.parse(fs.readFileSync("./Data/data.json", "utf-8"));
+    const expenses = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8")); // ← DATA_FILE
     const index = expenses.findIndex((e) => e.id === req.params.id);
 
     if (index === -1) {
@@ -62,7 +64,7 @@ const editData = (req, res) => {
       note: note || "",
     };
 
-    fs.writeFileSync("./Data/data.json", JSON.stringify(expenses, null, 2));
+    fs.writeFileSync(DATA_FILE, JSON.stringify(expenses, null, 2)); // ← DATA_FILE
     res.json(expenses[index]);
   } catch (err) {
     res.status(500).json({ error: "Failed to update expense." });
@@ -86,7 +88,7 @@ const addData = (req, res) => {
   }
 
   try {
-    const expenses = JSON.parse(fs.readFileSync("./Data/data.json", "utf-8"));
+    const expenses = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8")); // ← DATA_FILE
     const newExpense = {
       id: uuidv4(),
       amount: parseFloat(Number(amount).toFixed(2)),
@@ -96,7 +98,7 @@ const addData = (req, res) => {
       createdAt: new Date().toISOString(),
     };
     expenses.push(newExpense);
-    fs.writeFileSync("./Data/data.json", JSON.stringify(expenses, null, 2));
+    fs.writeFileSync(DATA_FILE, JSON.stringify(expenses, null, 2)); // ← DATA_FILE
     res.status(201).json(newExpense);
   } catch (err) {
     res.status(500).json({ error: "Failed to save expense." });
@@ -105,9 +107,9 @@ const addData = (req, res) => {
 
 const deleteData = (req, res) => {
   try {
-    const id = req.params.id; // ✅ Was wrongly reading from req.body
+    const id = req.params.id;
 
-    const results = JSON.parse(fs.readFileSync("./Data/data.json", "utf-8"));
+    const results = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8")); // ← DATA_FILE
     const index = results.findIndex((item) => item.id === id);
 
     if (index === -1) {
@@ -117,7 +119,7 @@ const deleteData = (req, res) => {
     }
 
     results.splice(index, 1);
-    fs.writeFileSync("./Data/data.json", JSON.stringify(results, null, 2));
+    fs.writeFileSync(DATA_FILE, JSON.stringify(results, null, 2)); // ← DATA_FILE
 
     res
       .status(200)
