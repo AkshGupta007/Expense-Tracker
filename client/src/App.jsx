@@ -4,6 +4,8 @@ import ExpenseTable from "./components/ExpenseTable";
 import SummaryPanel from "./components/Summary";
 import FilterBar from "./components/FilterBar";
 import CategoryChart from "./components/Chart";
+import Footer from "./components/Footer";
+import logo from "./Assests/logo1.png";
 import "./App.css";
 
 export default function App() {
@@ -20,8 +22,9 @@ export default function App() {
 
   return (
     <div className="app-container">
-      <header className="app-header">
-        <h1>💸 Expense Tracker</h1>
+      <header className="flex items-center justify-center gap-4">
+        <img src={logo} alt="Expense Tracker Logo" className="w-32 h-32" />
+        <h1 className="text-2xl font-bold">Expense Tracker</h1>
       </header>
 
       <main className="app-main">
@@ -31,8 +34,9 @@ export default function App() {
             onCancelEdit={handleCancelEdit}
             onEditDone={() => setEditingExpense(null)}
           />
-          <SummaryPanel />
+
           <CategoryChart />
+          <SummaryPanel />
         </section>
 
         <section className="right-panel">
@@ -40,6 +44,7 @@ export default function App() {
           <ExpenseTable onEdit={handleEdit} />
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

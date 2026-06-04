@@ -1,5 +1,6 @@
 import { useExpenseContext } from "../context/ContextApi";
 
+
 const CATEGORIES = [
   "All",
   "Food",
@@ -95,6 +96,8 @@ export default function FilterBar() {
         <button className="btn-ghost" onClick={() => applyPreset("all")}>
           All Time
         </button>
+
+   
       </div>
     </div>
   );

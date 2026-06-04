@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "id": "1a88390d-5aa8-4f0d-aee9-5e2fb6502f1b",
+    "amount": 1000,
+    "category": "Food",
+    "date": "2026-05-01",
+    "note": "",
+    "createdAt": "2026-06-04T09:56:30.276Z"
+  },
+  {
+    "id": "749609ee-2724-4cb5-a67c-a5efcdd4ab20",
+    "amount": 2000,
+    "category": "Transport",
+    "date": "2026-04-04",
+    "note": "",
+    "createdAt": "2026-06-04T09:56:42.447Z"
+  },
+  {
+    "id": "212e5b7d-0d65-4147-b632-b46e94fefd5b",
+    "amount": 3000,
+    "category": "Bills",
+    "date": "2026-03-04",
+    "note": "",
+    "createdAt": "2026-06-04T09:56:54.688Z"
+  },
+  {
+    "id": "7c483f61-7826-4c2b-8879-16a1000e2c2f",
+    "amount": 4000,
+    "category": "Entertainment",
+    "date": "2026-01-01",
+    "note": "",
+    "createdAt": "2026-06-04T09:57:10.653Z"
+  },
+  {
+    "id": "f83b591e-5b23-4dbc-818a-e4d8fcf0a3ed",
+    "amount": 500000,
+    "category": "Other",
+    "date": "2024-06-13",
+    "note": "",
+    "createdAt": "2026-06-04T09:57:25.082Z"
+  },
+  {
+    "id": "49258d9e-abe7-46b7-84ee-c039a15893b3",
+    "amount": 45000000,
+    "category": "Transport",
+    "date": "2026-06-04",
+    "note": "",
+    "createdAt": "2026-06-04T09:59:29.057Z"
+  },
+  {
+    "id": "b0d0edd7-4ee3-4d5c-9799-f6ccfa82eeb5",
+    "amount": 1234,
+    "category": "Food",
+    "date": "2026-06-04",
+    "note": "",
+    "createdAt": "2026-06-04T10:09:23.574Z"
+  },
+  {
+    "id": "aa7f9f18-b0ac-4e3b-9be7-76be1d18b790",
+    "amount": 2111,
+    "category": "Food",
+    "date": "2026-06-04",
+    "note": "dinner",
+    "createdAt": "2026-06-04T10:09:35.226Z"
+  },
+  {
+    "id": "8f167066-8eff-4faa-975b-87eb96c0c033",
+    "amount": 234,
+    "category": "Food",
+    "date": "2026-06-04",
+    "note": "",
+    "createdAt": "2026-06-04T10:39:13.435Z"
+  }
+]

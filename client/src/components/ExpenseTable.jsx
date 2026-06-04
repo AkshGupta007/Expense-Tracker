@@ -4,6 +4,7 @@ import { formatCurrency } from "../utils/formatCurrency";
 import ConfirmModal from "../utils/ConfirmationModal";
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
+import DownloadCSV from "../utils/downloadCSV";
 
 export default function ExpenseTable({ onEdit }) {
   const { expenses, loading, error, deleteExpense } = useExpenseContext();
@@ -53,7 +54,14 @@ export default function ExpenseTable({ onEdit }) {
       />
 
       <div className="card">
-        <h2>Expenses ({expenses.length})</h2>
+        <div className="flex gap-2 items-center justify-between mb-3">
+          <h2>Expenses ({expenses.length})</h2>
+        
+         {
+            expenses.length > 0 && <DownloadCSV />
+         }
+    
+        </div>
         <div className="table-wrapper">
           <table className="expense-table">
             <thead>
@@ -91,7 +99,7 @@ export default function ExpenseTable({ onEdit }) {
                       onClick={() => handleDeleteClick(expense)}
                       title="Delete"
                     >
-                        <MdDeleteForever />
+                      <MdDeleteForever />
                     </button>
                   </td>
                 </tr>
